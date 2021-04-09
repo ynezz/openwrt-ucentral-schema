@@ -4,4 +4,176 @@
 
 ## Properties
 
+- **`captive`** *(object)*: This section can be used to setup a captive portal on the AP.
+  - **`downloadquota`** *(number)*: The maximum download quota for a specific client.
+  - **`downloadrate`** *(number)*: The maximum download rate for a specific client.
+  - **`enabled`** *(number)*: Enable this option to tell the unit that it shall start a captive portal. Minimum: `0`. Maximum: `1`.
+  - **`gatewayfqdn`** *(string)*: The fqdn used for the captive portal IP.
+  - **`gatewayname`** *(string)*: This name will be presented to connecting users in on the splash page.
+  - **`maxclients`** *(number)*: The number of clients that we accept.
+  - **`uploadquota`** *(number)*: The maximum upload quota for a specific client.
+  - **`uploadrate`** *(number)*: The maximum upload rate for a specific client.
+- **`lldp`** *(object)*
+  - **`lldp_description`** *(string)*: The content that we shall announce inside the description field.
+  - **`location`** *(string)*: The content that we shall announce inside the location field.
+- **`log`** *(object)*
+  - **`log_hostname`** *(string)*: Hostname to send to remote syslog. If none is provided, the actual hostname is send.
+  - **`log_ip`** *(string)*: IP address of a syslog server to which the log messages should be sent in addition to the local destination.
+  - **`log_port`** *(number)*: Port number of the remote syslog server specified with log_ip. Minimum: `100`. Maximum: `65535`.
+  - **`log_proto`** *(string)*: Sets the protocol to use for the connection, either tcp or udp. Must be one of: `['tcp', 'udp']`.
+  - **`log_size`** *(number)*: Size of the file based log buffer in KiB. This value is used as the fallback value for log_buffer_size if the latter is not specified. Minimum: `32`.
+- **`mqtt`** *(object)*: The option that configure which mqtt server the unit should connect to.
+  - **`enable`** *(number)*: Enable this option if you would like the unit to connect to the MQTT backend. Minimum: `0`. Maximum: `1`.
+  - **`password`** *(string)*: The password that is used to authenticate.
+  - **`port`** *(number)*: This option defines the port that we connect to. Minimum: `1`. Maximum: `65535`.
+  - **`server`** *(string)*: the IP/URL of the MQTT server.
+  - **`username`** *(string)*: The username that is used to authenticate.
+- **`network`** *(array)*: Network Configuration.
+  - **Items** *(object)*: This section allows you to configure your networks.
+    - **`cfg`** *(object)*
+      - **`dhcp`** *(object)*: The DHCP configuration of the network interface.
+        - **`leasetime`** *(string)*: This defines how many hours the leases should be valid for. (12h, 30m, ...).
+        - **`limit`** *(number)*: This defines how many leasable IP addresses are available. Minimum: `10`.
+        - **`start`** *(number)*: This defines which number shall be used as the first leasable IP address. Minimum: `1`. Maximum: `254`.
+      - **`disabled`** *(number)*: This option allows use to disable a network interface. Minimum: `0`. Maximum: `1`.
+      - **`dns`** *(string)*: The IPv4 DNS server that shall be assigned to the network interface.
+      - **`gateway`** *(string)*: The IPv4 gateway that shall be assigned to the network interface.
+      - **`ip6assign`** *(number)*: The prefix delegation mask that the interface shall use. Minimum: `0`. Maximum: `96`.
+      - **`ipaddr`** *(string)*: The IPv4 address that shall be assigned to the network interface.
+      - **`leases`** *(array)*: A list of static dhcp leases assigned to the interface.
+        - **Items** *(object)*
+          - **`hostname`** *(string)*: The hostname address used by this static lease.
+          - **`ip`** *(string)*: The IP address used by this static lease.
+          - **`mac`** *(string)*: The MAC address used by this static lease.
+      - **`lldp`** *(number)*: Should LLDP be started on this network. Minimum: `0`. Maximum: `1`.
+      - **`mdns`** *(number)*: Should MDNS be started on this network. Minimum: `0`. Maximum: `1`.
+      - **`metric`** *(number)*: The routing metric of an interface. Lower values have higher priority. Maximum: `100`.
+      - **`mtu`** *(number)*: The MTU that shall be used by the network interface. Minimum: `256`. Maximum: `65535`.
+      - **`netmask`** *(string)*: The IPv4 netmask that shall be assigned to the network interface.
+      - **`peeraddr`** *(string)*: The remote tunnel endpoint that we want to connect to.
+      - **`port`** *(number)*: The network port that shall be used. Minimum: `256`. Maximum: `65535`.
+      - **`proto`** *(string)*: The configuration that shall be run on the network interface. Must be one of: `['none', 'dhcp', 'static']`.
+    - **`mode`** *(string)*: This defines if the network interface shall be bridged directly with the WAN side or shall be NAT'ed out from LAN. Must be one of: `['wan', 'lan', 'nat', 'guest', 'batman', 'mesh', 'gre', 'vxlan', 'repeater']`.
+    - **`name`** *(string)*: This option allows us to override the uci naming for NAT and guest networks.
+    - **`vlan`** *(number)*: The VID that shall be assign to packets leaving this network interface. Minimum: `16`. Maximum: `4095`.
+- **`ntp`** *(object)*
+  - **`enable_server`** *(number)*: Enable this option if you would like the unit to enable a downstream NTP server for its connected clients. Minimum: `0`. Maximum: `1`.
+  - **`enabled`** *(number)*: Enable this option to tell the unit that it shall get its time from an upstream NTP server. The servers are defined by the <servers> attribute. Minimum: `0`. Maximum: `1`.
+  - **`server`** *(array)*: This is an array of URL/IP of the upstream NTP servers that the unit shall use to acquire its current time.
+- **`phy`** *(array)*
+  - **Items** *(object)*
+    - **`band`** *(string)*: Must be one of: `['2', '5', '5u', '5l', '6']`.
+    - **`cfg`** *(object)*
+      - **`beacon_int`** *(number)*: Minimum: `50`. Maximum: `200`.
+      - **`chanbw`** *(number)*: Must be one of: `[5, 10, 20]`.
+      - **`channel`** *(number)*: Minimum: `0`. Maximum: `171`.
+      - **`country`** *(string)*
+      - **`disabled`** *(number)*: Minimum: `0`. Maximum: `1`.
+      - **`ema`** *(number)*: Enableing this option will make the phy broadcast its multiple BSSID beacons using EMA. Minimum: `0`. Maximum: `1`.
+      - **`he_bss_color`** *(number)*: This enables BSS Coloring on the PHY. setting it to 0 disables the feature 1-63 sets the color and 64 will make hostapd pick a random color. Minimum: `0`. Maximum: `64`.
+      - **`htmode`** *(string)*: Must be one of: `['NOHT', 'HT20', 'HT40', 'HT40+', 'HT40-', 'VHT20', 'VHT40', 'VHT80', 'VHT160', 'HE20', 'HE40', 'HE80', 'HE160']`.
+      - **`htwidth`** *(string)*: Must be one of: `[20, 40, 80, 160]`.
+      - **`hwmode`** *(string)*: Must be one of: `['11a', '11g']`.
+      - **`legacy_rates`** *(number)*: Minimum: `0`. Maximum: `1`.
+      - **`mimo`** *(string)*: Must be one of: `['1x1', '2x2', '3x3', '4x4', '8x8']`.
+      - **`multiple_bssid`** *(number)*: Enabling this option will make the phy broadcast its BSSs using the multiple BSSID beacon IE. Minimum: `0`. Maximum: `1`.
+      - **`require_mode`** *(string)*: Must be one of: `['g', 'n', 'ac', 'ax']`.
+      - **`txpower`** *(number)*: Minimum: `0`. Maximum: `30`.
+- **`poe`** *(object)*: This Object allows you to en/disable PoE on a network port.
+  - **`ports`** *(array)*: This is an array of the PoE state of the ports. any value other than 0 will enable PoE on a port.
+- **`rtty`** *(object)*
+  - **`enable`** *(number)*: Shall rtty be enabled ?
+  - **`host`** *(string)*: The server that we want to connect to.
+  - **`interface`** *(string)*: The interface that shall be used to connect to the server.
+  - **`port`** *(number)*: This option defines the port that we connect to. Minimum: `1`. Maximum: `65535`.
+  - **`token`** *(string)*: The security token that we use to authenticate with the server.
+- **`ssh`** *(object)*
+  - **`PasswordAuth`** *(boolean)*: Define if password based auth is allowed or not for user accounts.
+  - **`Port`** *(number)*: This option defines which port the SSH server shall be available on. Minimum: `1`. Maximum: `65535`.
+  - **`RootPasswordAuth`** *(boolean)*: Define if password based auth is allowed or not for the root account.
+  - **`allow_wan`** *(boolean)*: Should the ssh server be made available on the wan port.
+  - **`authorized_keys`** *(string)*: this allows the upload of public ssh keys. Keys need to be seperated by a newline.
+  - **`enable`** *(number)*: Enable this option if you would like to enable the SSH server on the unit. Minimum: `0`. Maximum: `1`.
+- **`ssid`** *(array)*: This is a list of all our SSIDs that shall be configured. Mapping of PHY/SSID is done via the "band" property.
+  - **Items** *(object)*
+    - **`band`** *(array)*: The list of wifi bands that the SSID should be broadcasted on. This value can be [ 2, 5, 5l, 5u, 6 ].
+    - **`cfg`** *(object)*
+      - **`acct_interval`** *(number)*: RADIUS accounting interval.
+      - **`acct_port`** *(number)*: RADIUS accounting port. Minimum: `1024`. Maximum: `65535`.
+      - **`acct_secret`** *(string)*: Shared accounting RADIUS secret.
+      - **`acct_server`** *(string)*: RADIUS accounting server to handle client authentication.
+      - **`anqp_domain_id`** *(number)*: ANQP Domain ID, An identifier for a set of APs in an ESS that share the same common ANQP information. Minimum: `0`. Maximum: `65535`.
+      - **`auth_secret`** *(string)*: Shared authentication RADIUS secret.
+      - **`bss_transition`** *(number)*: BSS Transition Management (11v). Minimum: `0`. Maximum: `1`.
+      - **`bssid`** *(string)*: Override the BSSID of the network, only applicable in adhoc or sta mode. In wds mode specifies the BSSID of another AP to create WDS with.
+      - **`civic`** *(string)*: The content of a location civic measurement subelement.
+      - **`dtim_period`** *(number)*: Set the DTIM (delivery traffic information message) period. There will be one DTIM per this many beacon frames. This may be set between 1 and 255. This option only has an effect on ap wifi-ifaces. Minimum: `1`. Maximum: `255`.
+      - **`encryption`** *(string)*: Wireless encryption method. Must be one of: `['none', 'psk', 'psk2', 'psk-mixed', 'wpa', 'wpa2', 'wpa-mixed', 'sae', 'sae-mixed', 'wpa3', 'wpa3-mixed']`.
+      - **`ft_over_ds`** *(number)*: Whether to enable FT-over-DS. Minimum: `0`. Maximum: `1`.
+      - **`ft_psk_generate_local`** *(number)*: Whether to generate FT response locally for PSK networks. This avoids use of PMK-R1 push/pull from other APs with FT-PSK networks as the required information (PSK and other session data) is already locally available. Minimum: `0`. Maximum: `1`.
+      - **`ftm_responder`** *(number)*: Publish fine timing measurement (FTM) responder functionality. Minimum: `0`. Maximum: `1`.
+      - **`hidden`** *(number)*: Disables the broadcasting of beacon frames if set to 1 and, in doing so, hides the ESSID. Minimum: `0`. Maximum: `1`.
+      - **`hs20`** *(number)*: Enable Hotspot 2.0 support. Minimum: `0`. Maximum: `1`.
+      - **`hs20_oper_friendly_name`** *(string)*: This parameter can be used to configure one or more Operator Friendly Name Duples.
+      - **`ieee80211k`** *(number)*: Enable 802.11k support. Minimum: `0`. Maximum: `1`.
+      - **`ieee80211r`** *(number)*: Enable 802.11r support. Minimum: `0`. Maximum: `1`.
+      - **`ieee80211v`** *(number)*: Enable 802.11v support. Minimum: `0`. Maximum: `1`.
+      - **`ieee80211w`** *(number)*: Enables MFP (802.11w). Minimum: `0`. Maximum: `2`.
+      - **`interworking`** *(number)*: Enable Interworking service. Minimum: `0`. Maximum: `1`.
+      - **`isolate`** *(number)*: Isolates wireless clients from each other. Minimum: `0`. Maximum: `1`.
+      - **`iw_domain_name`** *(string)*: IEEE 802.11u Domain Name.
+      - **`iw_nai_realm`** *(string)*: NAI Realm information.
+      - **`iw_network_auth_type`** *(string)*: Network Authentication Type. This parameter indicates what type of network authentication is used in the network.
+      - **`iw_venue_group`** *(number)*: Venue Info group. The available values are defined in IEEE Std 802.11u-2011, 7.3.1.34. Minimum: `0`. Maximum: `32`.
+      - **`iw_venue_name`** *(string)*: This parameter can be used to configure one or more Venue Name Duples for Venue Name ANQP information.
+      - **`iw_venue_type`** *(number)*: Venue Info type. The available values are defined in IEEE Std 802.11u-2011, 7.3.1.34. Minimum: `0`. Maximum: `32`.
+      - **`iw_venue_url`** *(string)*: Venue URL information This parameter can be used to configure one or more Venue URL Duples to provide additional information corresponding to Venue Name information.
+      - **`key`** *(string)*: In any WPA-PSK mode, this is a string that specifies the pre-shared passphrase from which the pre-shared key will be derived.
+      - **`lci`** *(string)*: The content of a LCI measurement subelement.
+      - **`mobility_domain`** *(string)*: Mobility Domain identifier (dot11FTMobilityDomainID, MDID).
+      - **`mode`** *(string)*: Selects the operation mode of the wireless network interface controller. Must be one of: `['ap', 'sta', 'mesh']`.
+      - **`multi_psk`** *(array)*
+        - **Items** *(object)*
+          - **`key`** *(string)*
+          - **`mac`** *(string)*
+          - **`ssid`** *(string)*
+          - **`vid`** *(number)*: Maximum: `1000`.
+      - **`multi_vlan`** *(array)*
+        - **Items** *(object)*
+          - **`network`** *(string)*
+          - **`ssid`** *(string)*
+          - **`vid`** *(number)*: Maximum: `1000`.
+      - **`name`** *(string)*
+      - **`network`** *(string)*: Specifies the network interface to attach the wireless to.
+      - **`operator_icon`** *(string)*: Operator icons are specified using references to the hs20_icon entries.
+      - **`osen`** *(number)*: OSU Server-Only Authenticated L2 Encryption Network. Minimum: `0`. Maximum: `1`.
+      - **`port`** *(number)*: The RADIUS port. Minimum: `1024`. Maximum: `65535`.
+      - **`radius_acct_req_attr`** *(string)*: Additional Accounting-Request attributes.
+      - **`radius_auth_req_attr`** *(string)*: Additional Access-Request attributes.
+      - **`rate_egress`** *(number)*
+      - **`rate_ingress`** *(number)*
+      - **`request_cui`** *(number)*: Request Chargeable-User-Identity (RFC 4372). Minimum: `0`. Maximum: `1`.
+      - **`rts_threshold`** *(number)*: Request to send threshold. Minimum: `1`. Maximum: `65535`.
+      - **`server`** *(string)*: RADIUS server to handle client authentication.
+      - **`ssid`** *(string)*: The broadcasted SSID of the wireless network and for for managed mode the SSID of the network you’re connecting to.
+      - **`stationary_ap`** *(number)*: Stationary AP config indicates that the AP doesn't move. Minimum: `0`. Maximum: `1`.
+      - **`time_zone`** *(string)*: The Timezone of the AP. Setting this value will enable the "Time Advertisement" IE int he beacon.
+      - **`uapsd`** *(number)*: Minimum: `0`. Maximum: `1`.
+- **`stats`** *(object)*: This section defines what stats and metric the unit should send to the cloud backend.
+  - **`interval`** *(number)*: This allows use to define how often the data should be sent. Values are in minutes. A value of 0 disables stats/metric reporting. Minimum: `0`.
+  - **`lldp`** *(number)*: The unit shall report its LLDP neighbours. Minimum: `0`. Maximum: `1`.
+  - **`neighbours`** *(number)*: The unit shall report its learned neighbour table. Minimum: `0`. Maximum: `1`.
+  - **`pids`** *(number)*: The unit shall report its process table. Minimum: `0`. Maximum: `1`.
+  - **`poe`** *(number)*: The unit shall report its current PoE state. Minimum: `0`. Maximum: `1`.
+  - **`serviceprobe`** *(number)*: The unit shall report its service probe results (dhcp, dns, radius, ...). Minimum: `0`. Maximum: `1`.
+  - **`system`** *(number)*: The unit shall report its basic system info (load, memory consumption, ...). Minimum: `0`. Maximum: `1`.
+  - **`traffic`** *(number)*: The unit shall report its network traffic counters. Minimum: `0`. Maximum: `1`.
+  - **`wifiiface`** *(number)*: The unit shall report its wifi ifaces. Minimum: `0`. Maximum: `1`.
+  - **`wifistation`** *(number)*: The unit shall report its wifi stations. Minimum: `0`. Maximum: `1`.
+- **`steer`** *(object)*: This section describes the band steering behaviour of the unit.
+  - **`enabled`** *(number)*: Enable this option to tell the unit that it shall paticipate in the netwrok wide steering. Minimum: `0`. Maximum: `1`.
+  - **`network`** *(string)*: The network that shall be used to communicate with the other peers.
+- **`system`** *(object)*
+  - **`hostname`** *(string)*: This allows you to change the hostname of the device.
+  - **`timezone`** *(string)*: This allows you to change the TZ of the device.
 - **`uuid`** *(integer)*
